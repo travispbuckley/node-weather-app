@@ -1,12 +1,21 @@
-const request = require('request');
+const yargs = require('yargs');
 
-// 4711 Yender Avenue
+const geocode = require('./geocode/geocode');
 
-request({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?address=4711%20Yender%20Avenue%20Lisle',
-    json: true
-}, (error, response, body) => {
-    // console.log(`Address: ${body.results[0].formatted_address}`);
-    console.log(`Lat: ${body.results[0].geometry.location.lat}`);
-    console.log(`Long: ${body.results[0].geometry.location.lng}`);
-});
+const argv = yargs
+    .options({
+        a: {
+            demand: true,
+            alias: 'address',
+            describe: 'Address to fetch weather for',
+            string: true // tells yargs to parse our argument 'a' as a string
+        }
+    })
+    .help()
+    .alias('help', 'h')
+    .argv;
+
+geocode.geocodeAddress(argv.a);
+console.log('this is test');
+
+
